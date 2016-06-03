@@ -1,0 +1,23 @@
+/*debug
+*{
+    border: 1px solid red !important
+}*
+/* end debug */
+.btn{
+  background-color: lightblue;
+  color: red;
+  margin: 5px;
+  border: 2px solid green;
+}
+div{
+  border: 1px solid green;
+}
+#giphysGoHere{
+  border: 1px solid red;
+  width: 100%;
+  display: inline-block;
+}
+.gifDiv{
+  margin: 10px;
+  width: auto;
+}
