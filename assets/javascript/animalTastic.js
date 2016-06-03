@@ -16,7 +16,9 @@ $(document).ready(function() {
   $('#animalButton').on('click', '.animal', function(){
     var theButtonText = this.textContent;
     console.log("theButtonText = "+theButtonText);
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q="+theButtonText+"&limit=10&api_key=dc6zaTOxFJmzC";
+    //replace space with +
+    var searchText = theButtonText.replace(" ", "+");
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q="+searchText+"&limit=10&api_key=dc6zaTOxFJmzC";
     //make the ajax call
     $.ajax({url: queryURL, method: 'GET'}).done(function(ajaxResponse) {
       addGifs(ajaxResponse);
