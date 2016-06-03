@@ -19,9 +19,16 @@ $(document).ready(function() {
     var queryURL = "http://api.giphy.com/v1/gifs/search?q="+theButtonText+"&limit=10&api_key=dc6zaTOxFJmzC";
     //make the ajax call
     $.ajax({url: queryURL, method: 'GET'}).done(function(ajaxResponse) {
-      addGifs(ajaxResponse)
+      addGifs(ajaxResponse);
     });//end ajax{GET}
-  })
+  })//end #animalButton').on('click
+
+  $("#giphysGoHere").on('click', '.giphy', function(e){
+    //var gifClicked = e.target;
+    animateGifs(e.target);
+  })// end #giphysGoHere").on('click
+
+
   function addButton(){
     $('.animal').remove();
     for (var i = 0; i < buttonArray.length; i++) {
@@ -54,13 +61,13 @@ $(document).ready(function() {
     }
   }
 
-  /*function animateGifs(){
-            if ( state == 'still'){
-                $(this).attr('src', $(this).data('animate'));
-                $(this).attr('data-state', 'animate');
+  function animateGifs(gifClicked){
+            if ( $(gifClicked).attr('data-state') == 'still'){
+                $(gifClicked).attr('src', $(gifClicked).data('animate'));
+                $(gifClicked).attr('data-state', 'animate');
             }else{
-                $(this).attr('src', $(this).data('still'));
-                $(this).attr('data-state', 'still');
+                $(gifClicked).attr('src', $(gifClicked).data('still'));
+                $(gifClicked).attr('data-state', 'still');
             }
-  }*/
+  }
 }); //end document).ready
