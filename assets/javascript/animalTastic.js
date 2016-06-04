@@ -1,35 +1,50 @@
 var buttonArray = ["rabbit","goat","bear"];
-
+var deleteEnabled = false;
 $(document).ready(function() {
   //initlize the canned buttons
   addButton();
+  addDeleteButton();
   $('#addAnimal').on('click', function(event){
     //use preventDefault to keep the 'form' from refershing the html and clearing the new buttons
     event.preventDefault();
     var newAnimal = $('#animalInput').val().trim();
      $('#animalInput').val("")
     buttonArray.push(newAnimal);
-    console.log("newAnimal = "+newAnimal);
     addButton();
   });
 
   $('#animalButton').on('click', '.animal', function(){
     var theButtonText = this.textContent;
-    console.log("theButtonText = "+theButtonText);
-    //replace space with +
-    var searchText = theButtonText.replace(" ", "+");
-    var queryURL = "http://api.giphy.com/v1/gifs/search?q="+searchText+"&limit=10&api_key=dc6zaTOxFJmzC";
-    //make the ajax call
-    $.ajax({url: queryURL, method: 'GET'}).done(function(ajaxResponse) {
-      addGifs(ajaxResponse);
-    });//end ajax{GET}
+    if (deleteEnabled === true) {
+      buttonArray.splice(buttonArray.indexOf(theButtonText),1);
+      $(this).remove();
+      deleteEnabled = false;
+    }
+    else{
+      //replace space with +
+      var searchText = theButtonText.replace(" ", "+");
+      var queryURL = "http://api.giphy.com/v1/gifs/search?q="+searchText+"&limit=10&api_key=dc6zaTOxFJmzC";
+      //make the ajax call
+      $.ajax({url: queryURL, method: 'GET'}).done(function(ajaxResponse) {
+        addGifs(ajaxResponse);
+      });//end ajax{GET}
+    }
   })//end #animalButton').on('click
 
-  $("#giphysGoHere").on('click', '.giphy', function(e){
+  $("#giphysGoHere").on('click', '.giphy', function(){
+    if (deleteEnabled === true) {
+      $(this).parent().remove();
+      deleteEnabled = false;
+    }
+    else{
     //var gifClicked = e.target;
-    animateGifs(e.target);
+    animateGifs(this);
+    }
   })// end #giphysGoHere").on('click
 
+  $("#deleteButton").on("click", ".deleteEnable", function(){
+    deleteEnabled = true;
+  })
 
   function addButton(){
     $('.animal').remove();
@@ -64,12 +79,19 @@ $(document).ready(function() {
   }
 
   function animateGifs(gifClicked){
-            if ( $(gifClicked).attr('data-state') == 'still'){
-                $(gifClicked).attr('src', $(gifClicked).data('animate'));
-                $(gifClicked).attr('data-state', 'animate');
-            }else{
-                $(gifClicked).attr('src', $(gifClicked).data('still'));
-                $(gifClicked).attr('data-state', 'still');
-            }
+    if ( $(gifClicked).attr('data-state') == 'still'){
+      $(gifClicked).attr('src', $(gifClicked).data('animate'));
+      $(gifClicked).attr('data-state', 'animate');
+    }else{
+      $(gifClicked).attr('src', $(gifClicked).data('still'));
+      $(gifClicked).attr('data-state', 'still');
+    }
+  }
+  function addDeleteButton(){
+    $("deleteButton").addClass('text-right');
+    var $button = $('<button>')
+    $button.addClass('deleteEnable btn');
+    $button.html('Delete Enable Button');
+    $('#deleteButton').append($button);
   }
 }); //end document).ready

@@ -10,3 +10,6 @@
   margin: 10px;
   width: auto;
 }
+#deleteButton{
+  float: right;
+}
